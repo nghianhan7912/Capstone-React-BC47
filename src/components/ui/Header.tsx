@@ -31,13 +31,15 @@ export const Header = () => {
         })}>
             <div className="header-content">
                 <h1 className="brand">
-                    <span className="text-[var(--primary-color)]">CYBER</span>
+                    <span className="text-[var(--primary-color)]" onClick={()=>{
+                        navigate("/")
+                    }}>CYBER</span>
                     MOVIE
                 </h1>
                 <div className="flex items-center gap-[60px]">
                     <nav>
                         <NavLink to="/">TRANG CHỦ</NavLink>
-                        <NavLink to="">LỊCH CHIẾU</NavLink>
+                        <NavLink to={PATH.showTimes}>LỊCH CHIẾU</NavLink>
                         <NavLink to="">PHIM</NavLink>
                         <NavLink to={PATH.movieBooking}>RẠP</NavLink>
                         <NavLink to="">TIN TỨC</NavLink>
@@ -127,6 +129,8 @@ const Container = styled.header`
         width : 100%;
         background-color: white;
         z-index: 999;
+        top: 0;
+        left : 0;
     }
 
     .header-content {

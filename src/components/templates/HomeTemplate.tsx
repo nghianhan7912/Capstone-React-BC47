@@ -6,28 +6,32 @@ import { getBannerListThunk, getMovieListThunk } from "store/quanLyPhim";
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { getCinemaListThunk } from "store/quanLyRap";
+import { getCinemaListThunk, getShowTimesListThunk } from "store/quanLyRap";
+import {  generatePath, useNavigate } from "react-router-dom";
+import { PATH } from "constant";
 
 export const HomeTemplate = () => {
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { movieList, isFetchinhMovieList, bannerList } = useSelector(
         (state: RootState) => state.quanLyPhim
     );
-    const { cinemaList } = useSelector((state: RootState) => state.quanLyRap);
-    console.log(cinemaList);
+
+
 
     useEffect(() => {
-        dispatch(getMovieListThunk());
-        dispatch(getBannerListThunk());
         dispatch(getCinemaListThunk());
+        dispatch(getMovieListThunk({ a: "GP08", b: "GP03" }));
+        dispatch(getBannerListThunk());
+        dispatch(getShowTimesListThunk());
     }, [dispatch]);
 
     if (isFetchinhMovieList) {
         return (
             <div className="grid grid-cols-4">
-                {[...Array(12)].map(() => {
+                {[...Array(12)].map((_, index) => {
                     return (
-                        <Card className="!w-[300px] !mt-20">
+                        <Card className="!w-[300px] !mt-20" key={index}>
                             <Skeleton.Image className="!w-full !h-[250px]" />
                             <Skeleton.Input className="!w-full mt-16" />
                             <Skeleton.Input className="!w-full mt-16" />
@@ -50,7 +54,7 @@ export const HomeTemplate = () => {
                     {bannerList?.map((banner) => (
                         <SwiperSlide key={banner.maBanner}>
                             <img
-                                className="w-full !p-0"
+                                className="w-full max-h-[720px] !p-0"
                                 src={banner.hinhAnh}
                                 alt=""
                             />{" "}
@@ -92,6 +96,22 @@ export const HomeTemplate = () => {
                                                         50
                                                     )}...`}
                                                 />
+                                                <button
+                                                    className="text-center border border-gray-400 p-1 cursor-pointer hover:border-black transition shadow-xl rounded-10 !text-gray-600"
+                                                    onClick={() => {
+                                                        const path =
+                                                            generatePath(
+                                                                PATH.movieDetail,
+                                                                {
+                                                                    movieID:
+                                                                        movie.maPhim,
+                                                                }
+                                                            );
+                                                        navigate(path);
+                                                    }}
+                                                >
+                                                    Chi tiết phim
+                                                </button>
                                             </Card>
                                         </div>
                                     ))}
@@ -131,6 +151,22 @@ export const HomeTemplate = () => {
                                                             50
                                                         )}...`}
                                                     />
+                                                    <button
+                                                        className="text-center border border-gray-400 p-1 cursor-pointer hover:border-black transition shadow-xl rounded-10 !text-gray-600"
+                                                        onClick={() => {
+                                                            const path =
+                                                                generatePath(
+                                                                    PATH.movieDetail,
+                                                                    {
+                                                                        movieID:
+                                                                            movie.maPhim,
+                                                                    }
+                                                                );
+                                                            navigate(path);
+                                                        }}
+                                                    >
+                                                        Chi tiết phim
+                                                    </button>
                                                 </Card>
                                             </div>
                                         ) : undefined
@@ -171,6 +207,22 @@ export const HomeTemplate = () => {
                                                             50
                                                         )}...`}
                                                     />
+                                                    <button
+                                                        className="text-center border border-gray-400 p-1 cursor-pointer hover:border-black transition shadow-xl rounded-10 !text-gray-600"
+                                                        onClick={() => {
+                                                            const path =
+                                                                generatePath(
+                                                                    PATH.movieDetail,
+                                                                    {
+                                                                        movieID:
+                                                                            movie.maPhim,
+                                                                    }
+                                                                );
+                                                            navigate(path);
+                                                        }}
+                                                    >
+                                                        Chi tiết phim
+                                                    </button>
                                                 </Card>
                                             </div>
                                         ) : undefined
@@ -181,67 +233,7 @@ export const HomeTemplate = () => {
                     ]}
                 />
             </div>
-            <div>
-                <Tabs
-                    tabPosition="left"
-                    items={[
-                        {
-                            key: "BHD",
-                            label: (
-                                <div>
-                                    <img className="max-w-[80px]" src={cinemaList[0].logo} alt="" />
-                                </div>
-                            ),
-                            children: <div></div>,
-                        },
-                        {
-                            key: "CGV",
-                            label: (
-                                <div>
-                                    <img className="max-w-[80px]" src={cinemaList[1].logo} alt="" />
-                                </div>
-                            ),
-                            children: <div></div>,
-                        },
-                        {
-                            key: "CineStar",
-                            label: (
-                                <div>
-                                    <img className="max-w-[80px]" src={cinemaList[2].logo} alt="" />
-                                </div>
-                            ),
-                            children: <div></div>,
-                        },
-                        {
-                            key: "Galaxy",
-                            label: (
-                                <div>
-                                    <img className="max-w-[80px]" src={cinemaList[3].logo} alt="" />
-                                </div>
-                            ),
-                            children: <div></div>,
-                        },
-                        {
-                            key: "Lotter Cinema",
-                            label: (
-                                <div>
-                                    <img className="max-w-[80px]" src={cinemaList[4].logo} alt="" />
-                                </div>
-                            ),
-                            children: <div></div>,
-                        },
-                        {
-                            key: "MegaGS",
-                            label: (
-                                <div>
-                                    <img className="max-w-[80px]" src={cinemaList[5].logo} alt="" />
-                                </div>
-                            ),
-                            children: <div></div>,
-                        },
-                    ]}
-                />
-            </div>
+
         </div>
     );
 };

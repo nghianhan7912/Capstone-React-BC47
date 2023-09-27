@@ -59,7 +59,7 @@ export default {
         12: "12px",
         13: "13px",
         14: "14px",
-      }
+      },
     },
   },
   plugins: [],

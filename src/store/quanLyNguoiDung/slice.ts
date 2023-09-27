@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {UserByAccessToken, UserLogin} from "types"
-import { getUserByAccessTokenThunk, loginThunk } from ".";
+import {HistoRyBooking, UserByAccessToken, UserLogin} from "types"
+import { getHistoryBookingThunk, getUserByAccessTokenThunk, loginThunk } from ".";
 import { getAccessToken } from "utils";
 
 type QuanLyNguoiDungInitialState = {
     accessToken?: string,
     userLogin?: UserLogin | UserByAccessToken,
-    isFetchingLogin ?: boolean
+    isFetchingLogin ?: boolean,
+    historyBooking ?: HistoRyBooking
 }
 
 const initialState: QuanLyNguoiDungInitialState = {
@@ -22,7 +23,10 @@ const quanLyNguoiDungSlice = createSlice({
             state.accessToken = undefined
             state.userLogin = undefined
             localStorage.removeItem("ACCESSTOKEN")
-        }
+        },
+        update : (state, {payload}) => {
+            state.userLogin = payload
+        }        
     }, // Xử lý đồng bộ
     extraReducers(builder) {
         // Xử lý bất đồng bộ (call API)
@@ -37,7 +41,7 @@ const quanLyNguoiDungSlice = createSlice({
             // Set lại cái user
             state.userLogin = payload
             state.isFetchingLogin = false
-
+            
         })
         .addCase(loginThunk.rejected , (state) => {
             state.isFetchingLogin = false
@@ -45,6 +49,9 @@ const quanLyNguoiDungSlice = createSlice({
 
         .addCase(getUserByAccessTokenThunk.fulfilled , (state, {payload}) =>{
             state.userLogin = payload
+        })
+        .addCase(getHistoryBookingThunk.fulfilled, (state , {payload}) => {
+            state.historyBooking = payload
         })
     }
 });

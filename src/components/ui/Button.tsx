@@ -1,9 +1,18 @@
 import {Button as ButtonA , ButtonProps as ButtonPropsA} from "antd"
+import styled from "styled-components"
 
 type ButtonPros = ButtonPropsA & {
-    // Định nghĩa thêm pros của mình
+    color?: string
 }
 
 export const Button = (props : ButtonPros) => {
-    return <ButtonA {...props} />
+    return <ButtonS {...props} />
 }
+
+
+const ButtonS = styled(ButtonA)<ButtonPros>`
+    background: ${p => p.color} !important;
+    &:hover {
+        border: 2px solid yellow !important;
+    }
+`

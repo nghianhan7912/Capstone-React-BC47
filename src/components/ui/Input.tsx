@@ -10,9 +10,11 @@ type InputProps = {
     error ?: string,
     placeholder ?:string,
     className ?: string,
+    name ?:string,
+    onChange ?: void 
 }
 
-export const Input = ({label,id,type = "text",register,error , placeholder , className = ""} : InputProps) => {
+export const Input = ({label,id,type = "text",register,error , placeholder,onChange , className = "" } : InputProps) => {
   return (
     <div className={className}>
         {!!label && <label htmlFor="taiKhoan">{label}</label>}
@@ -21,17 +23,9 @@ export const Input = ({label,id,type = "text",register,error , placeholder , cla
                     type={type}
                     className="p-10 mt-8 w-full rounded-6  bg-[#333]"
                     placeholder={placeholder}
-                    // {...register("taiKhoan", {
-                    //     required: "Vui lòng nhập tài khoản",
-                    //     maxLength: {
-                    //         value: 20,
-                    //         message: "Tối đa chỉ được 20 ký tự",
-                    //     },
-                    //     minLength: {
-                    //         value: 6,
-                    //         message: "Nhập tối thiểu 6 ký tự",
-                    //     },
-                    // })}
+                    // value={formValue}
+                    name={name}
+                    onChange = {onChange}
                     {...register?.(id)}
                 />
                 {!!error  && (
